@@ -4,8 +4,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "dependencies": {
+    "data-uri-to-buffer": "^4.0.1",
+    "fetch-blob": "^3.2.0",
+    "formdata-polyfill": "^4.0.10",
+    "node-domexception": "^1.0.0",
+    "node-fetch": "^3.3.2",
+    "web-streams-polyfill": "^3.2.1"
+  },
+  "devDependencies": {},
   "scripts": {
-    "dev": "node --watch --no-warnings src/server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
