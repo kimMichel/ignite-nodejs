@@ -17,10 +17,9 @@ const server = http.createServer((req, res) => {
       name: "Michel Kim",
       email: "michelkim@example.com",
     });
-    return res.end("User created.");
+    return res.writeHead(201).end();
   }
-
-  return res.end("Hello Kim");
-});
+  return res.writeHead(404).end('Not Found');
+})
 
 server.listen(3333);
