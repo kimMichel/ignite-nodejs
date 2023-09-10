@@ -1,0 +1,16 @@
+# Node.js
+node_modules/
+npm-debug.log
+*.log
+.env
+
+# Editor and IDE
+.vscode/
+.idea/
+
+# Dependency lock files
+yarn.lock
+package-lock.json
+
+# Mac OS
+.DS_Store
