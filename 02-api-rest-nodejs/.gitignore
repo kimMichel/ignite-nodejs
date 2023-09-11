@@ -15,4 +15,4 @@ package-lock.json
 # Mac OS
 .DS_Store
 
-tmp/app.db
+db/app.db
