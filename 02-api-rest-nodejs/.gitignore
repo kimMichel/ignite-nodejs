@@ -3,6 +3,7 @@ node_modules/
 npm-debug.log
 *.log
 .env
+.env.test
 
 # Editor and IDE
 .vscode/
