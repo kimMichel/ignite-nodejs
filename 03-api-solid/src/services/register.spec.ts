@@ -1,23 +1,13 @@
 import { expect, describe, it } from 'vitest'
 import { RegisterService } from './register'
+import { InMemoryUsersRepository } from '../repositories/in-memory/in-memory-users-repository'
 import { compare } from 'bcryptjs'
+import { UserAlreadyExistisError } from './errors/user-already-exists-error'
 
 describe('Register Service', () => {
   it('should hash user password upon registration', async () => {
-    const registerService = new RegisterService({
-      async create(data) {
-        return {
-          id: 'user-1',
-          name: data.name,
-          email: data.email,
-          password_hash: data.password_hash,
-          created_at: new Date(),
-        }
-      },
-      async findByEmail(email) {
-        return null
-      },
-    })
+    const usersRepository = new InMemoryUsersRepository()
+    const registerService = new RegisterService(usersRepository)
 
     const { user } = await registerService.execute({
       name: 'John Doe',
@@ -31,5 +21,39 @@ describe('Register Service', () => {
     )
 
     expect(isPasswordCorrectlyHashed).toBe(true)
+  })
+
+  it('should not be able to register with same email twice', async () => {
+    const usersRepository = new InMemoryUsersRepository()
+    const registerService = new RegisterService(usersRepository)
+
+    const email = 'johndoe@example.com'
+
+    await registerService.execute({
+      name: 'John Doe',
+      email,
+      password: '123456',
+    })
+
+    expect(() =>
+      registerService.execute({
+        name: 'John Doe',
+        email,
+        password: '123456',
+      }),
+    ).rejects.toBeInstanceOf(UserAlreadyExistisError)
+  })
+
+  it('should be able to register', async () => {
+    const usersRepository = new InMemoryUsersRepository()
+    const registerService = new RegisterService(usersRepository)
+
+    const { user } = await registerService.execute({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '123456',
+    })
+
+    expect(user.id).toEqual(expect.any(String))
   })
 })
